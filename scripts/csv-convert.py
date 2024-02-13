@@ -1,17 +1,17 @@
 import csv
 import os
-# 2行
-# 空ける
-def txt_csv_converter(filename, writer): # 引数は2つ
+
+
+def txt_csv_converter(filename, writer):
     with open(filename) as f:
         file = f.readlines()
         for row in file:
             read = []
             for i in range(12):
-                if int(row[4 * i:4 * (i + 1)]) == 9999: # 9999を None へ
+                if int(row[4 * i:4 * (i + 1)]) == 9999:
                     read.append(None)
                 else:
-                    read.append(int(row[4 * i:4 * (i + 1)])) # int 型で格納
+                    read.append(int(row[4 * i:4 * (i + 1)])) 
             read += [
                 int(row[69:73]),
                 int(row[73:75]),
@@ -20,23 +20,23 @@ def txt_csv_converter(filename, writer): # 引数は2つ
                 int(row[79]),
             ]
             writer.writerow(read)
-# 2行
-# 空ける
-def get_raw_data(dir_path) -> list: # -> list とすると, この関数が list 型の返り値を持つことを示してくれる(アノテーション)
-    filenames = sorted(os.listdir(dir_path)) # os.listdir(path) は path ディレクトリ下のファイル名(フォルダ名も含む)を list に str 型で全て格納する # sorted() でソートする
-    return filenames # list 型で生データのファイル名を取得できる形にする
-# 2行
-# 空ける
+
+
+def get_raw_data(dir_path) -> list: 
+    filenames = sorted(os.listdir(dir_path)) 
+    return filenames 
+
+
 def main():
     raw_dir = "data/Moji_Tide_2011-2021/raw"
 
-    if os.path.isdir(raw_dir): # 生データのフォルダの存在を確認
+    if os.path.isdir(raw_dir): 
         raw_filenames = get_raw_data(raw_dir)
 
         csv_dir = "data/Moji_Tide_2011-2021/csv"
-        if os.path.isdir(csv_dir): # csv データのフォルダの存在を確認
+        if os.path.isdir(csv_dir): 
             pass
-        else: # 無ければ作る
+        else: 
             os.mkdir(csv_dir)
 
         filename = csv_dir + "/9010_2011-2021.csv"
@@ -70,11 +70,10 @@ def main():
                 raw_filename = raw_dir + "/" + file
                 txt_csv_converter(raw_filename, writer)
 
-    else: # 生データのフォルダが無ければエラーを吐く
+    else: 
         print("Exceptional Error:")
         print(f"{raw_dir} is not found")
-# 2行
-# 空ける
+
+
 if __name__ == '__main__':
     main()
-# 1行空ける
