@@ -28,12 +28,12 @@ def get_raw_data(dir_path) -> list:
 
 
 def main():
-    raw_dir = "data/Moji_Tide_2011-2021/raw"
+    raw_dir = "../data/Moji_Tide_2011-2021/raw"
 
     if os.path.isdir(raw_dir): 
         raw_filenames = get_raw_data(raw_dir)
 
-        csv_dir = "data/Moji_Tide_2011-2021/csv"
+        csv_dir = "../data/Moji_Tide_2011-2021/csv"
         if os.path.isdir(csv_dir): 
             pass
         else: 
