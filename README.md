@@ -15,5 +15,5 @@
 2. data/Moji_Tide_2011-2021/raw内の各ファイル「9010_20xx.txt」を保存する.
 3. 次のコマンドを入力し, 実行完了まで待つ.
   ~~~
-  python3 scripts/csv-convert.py
+  python3 csv-convert.py
   ~~~
