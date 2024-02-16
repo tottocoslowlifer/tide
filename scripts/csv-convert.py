@@ -11,7 +11,7 @@ def txt_csv_converter(filename, writer):
                 if int(row[4 * i:4 * (i + 1)]) == 9999:
                     read.append(None)
                 else:
-                    read.append(int(row[4 * i:4 * (i + 1)])) 
+                    read.append(int(row[4 * i:4 * (i + 1)]))
             read += [
                 int(row[69:73]),
                 int(row[73:75]),
@@ -22,21 +22,21 @@ def txt_csv_converter(filename, writer):
             writer.writerow(read)
 
 
-def get_raw_data(dir_path) -> list: 
-    filenames = sorted(os.listdir(dir_path)) 
-    return filenames 
+def get_raw_data(dir_path) -> list:
+    filenames = sorted(os.listdir(dir_path))
+    return filenames
 
 
 def main():
     raw_dir = "../data/Moji_Tide_2011-2021/raw"
 
-    if os.path.isdir(raw_dir): 
+    if os.path.isdir(raw_dir):
         raw_filenames = get_raw_data(raw_dir)
 
         csv_dir = "../data/Moji_Tide_2011-2021/csv"
-        if os.path.isdir(csv_dir): 
+        if os.path.isdir(csv_dir):
             pass
-        else: 
+        else:
             os.mkdir(csv_dir)
 
         filename = csv_dir + "/9010_2011-2021.csv"
@@ -70,7 +70,7 @@ def main():
                 raw_filename = raw_dir + "/" + file
                 txt_csv_converter(raw_filename, writer)
 
-    else: 
+    else:
         print("Exceptional Error:")
         print(f"{raw_dir} is not found")
 
