@@ -1,5 +1,3 @@
-import csv
-import os
 import pandas as pd
 
 
@@ -21,7 +19,7 @@ def main():
 
     raw_filename = raw_dir + "/9010_2011-2021_edited.csv"
 
-    columns = ["Date","Year","Month"]
+    columns = ["Date", "Year", "Month"]
     for column in columns:
         edit_filename = edit_dir + "/9010_2011-2021_edited_{}.csv", column
         to_column(raw_filename, edit_filename, column)

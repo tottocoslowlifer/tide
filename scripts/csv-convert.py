@@ -43,7 +43,6 @@ def main():
         with open(filename, mode="w", newline="") as fw:
             writer = csv.writer(fw)
 
-            writer.writerow(["ダウンロードした時刻：2024/2/11 19:37"])
             writer.writerow(
                 [
                     "0時の潮高値(cm)",
