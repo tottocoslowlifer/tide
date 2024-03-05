@@ -4,17 +4,18 @@ import os
 
 def csv_integrater(filename, writer):
     with open(filename, encoding="shift-jis") as f:
-        file = f.readlines()
+        file = f.readlines()[5:]
         for row in file:  
             row = row.rstrip()
             read = row.split(",")
-            #if read[1] == "--":
-                #read[1] = None
+            if read[1] == "--":
+                read[1] = None
             writer.writerow(read)
 
 
 def get_raw_dir(dir_path) -> list:
     dirnames = sorted(os.listdir(dir_path))
+    dirnames.remove(".DS_Store")
     return dirnames
 
 
@@ -29,16 +30,10 @@ def main():
     if os.path.isdir(raw_dir):
         raw_directories = get_raw_dir(raw_dir)
         for dcr in raw_directories:
-            search_dir = raw_dir + "/" + dcr
+            search_dir = raw_dir + "/" + dcr + "/raw"
             raw_filenames = get_raw_data(search_dir)
 
-            csv_dir = search_dir
-            if os.path.isdir(csv_dir):
-                pass
-            else:
-                os.mkdir(csv_dir)
-
-            filename = csv_dir + "/Rain_2011-2021.csv"
+            filename = raw_dir + "/" + dcr + "/" + dcr + ".csv"
             with open(filename, mode="w", newline="") as fw:
                 writer = csv.writer(fw)
 
@@ -51,8 +46,8 @@ def main():
                 )
 
                 for file in raw_filenames:
-                    raw_filename = raw_dir + "/" + file
-                    csv_integrater(raw_filename, writer)
+                    raw_filename = search_dir + "/" + file
+                    csv_integrater(raw_filename, writer)    
 
     else:
         print("Exceptional Error:")
