@@ -30,30 +30,8 @@ def main():
         raw_directories = get_raw_dir(raw_dir)
         for dcr in raw_directories:
             search_dir = raw_dir + "/" + dcr
-            raw_filenames = get_raw_data(search_dir)
-
-            csv_dir = search_dir
-            if os.path.isdir(csv_dir):
-                pass
-            else:
-                os.mkdir(csv_dir)
-
-            filename = csv_dir + "/Rain_2011-2021.csv"
-            with open(filename, mode="w", newline="") as fw:
-                writer = csv.writer(fw)
-
-                writer.writerow(
-                    [
-                        "20xx年xx月xx日xx時",
-                        "降水量(mm)",
-                        "均質番号"
-                    ]
-                )
-
-                for file in raw_filenames:
-                    raw_filename = raw_dir + "/" + file
-                    csv_integrater(raw_filename, writer)
-
+            #raw_filenames = get_raw_data(search_dir)
+            print(search_dir)
     else:
         print("Exceptional Error:")
         print(f"{raw_dir} is not found")
