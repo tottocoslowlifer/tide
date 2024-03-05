@@ -37,13 +37,30 @@ def main():
             with open(filename, mode="w", newline="") as fw:
                 writer = csv.writer(fw)
 
-                writer.writerow(
-                    [
-                        "20xx年xx月xx日xx時",
-                        "降水量(mm)",
-                        "均質番号"
-                    ]
-                )
+                if dcr == "Rain_2011-2021":
+                    writer.writerow(
+                        [
+                            "20xx年xx月xx日xx時",
+                            "降水量(mm)",
+                            "均質番号"
+                        ]
+                    )
+                elif dcr == "Temp_2011-2021":
+                    writer.writerow(
+                        [
+                            "20xx年xx月xx日xx時",
+                            "気温(℃)",
+                            "均質番号"
+                        ]
+                    )
+                elif dcr == "Weather_2011-2021":
+                    writer.writerow(
+                        [
+                            "20xx年xx月xx日xx時",
+                            "天気",
+                            "均質番号"
+                        ]
+                    )
 
                 for file in raw_filenames:
                     raw_filename = search_dir + "/" + file
