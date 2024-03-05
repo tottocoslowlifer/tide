@@ -19,11 +19,6 @@ def get_raw_dir(dir_path) -> list:
     return dirnames
 
 
-def get_raw_data(dir_path) -> list:
-    filenames = sorted(os.listdir(dir_path))
-    return filenames
-
-
 def main():
     raw_dir = "../data/Shimonoseki_2011-2021"
 
@@ -31,7 +26,7 @@ def main():
         raw_directories = get_raw_dir(raw_dir)
         for dcr in raw_directories:
             search_dir = raw_dir + "/" + dcr + "/raw"
-            raw_filenames = get_raw_data(search_dir)
+            raw_filenames = get_raw_dir(search_dir)
 
             filename = raw_dir + "/" + dcr + "/" + dcr + ".csv"
             with open(filename, mode="w", newline="") as fw:
@@ -64,7 +59,7 @@ def main():
 
                 for file in raw_filenames:
                     raw_filename = search_dir + "/" + file
-                    csv_integrater(raw_filename, writer)    
+                    csv_integrater(raw_filename, writer)
 
     else:
         print("Exceptional Error:")
