@@ -19,8 +19,8 @@ def get_raw_files(dir_path) -> list:
 
     for i in range(11):
         name = dir_path + "/raw/mooncal" + str(cnt+i) + ".csv"
-        #data = pd.read_csv(name, encoding="shift-jis", index_col=0)
-        #data.to_csv(name, index=False)
+        data = pd.read_csv(name, encoding="shift-jis", index_col=0)
+        data.to_csv(name, index=False)
         filenames.append(name)
     return filenames
 
