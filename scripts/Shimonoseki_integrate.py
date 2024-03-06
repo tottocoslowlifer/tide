@@ -5,11 +5,12 @@ import os
 def csv_integrater(filename, writer):
     with open(filename, encoding="shift-jis") as f:
         file = f.readlines()[5:]
-        for row in file:  
+        for row in file:
             row = row.rstrip()
             read = row.split(",")
             if read[1] == "--":
                 read[1] = None
+            read.remove(read[-1])
             writer.writerow(read)
 
 
@@ -37,7 +38,6 @@ def main():
                         [
                             "20xx年xx月xx日xx時",
                             "降水量(mm)",
-                            "均質番号"
                         ]
                     )
                 elif dcr == "Temp_2011-2021":
@@ -45,15 +45,6 @@ def main():
                         [
                             "20xx年xx月xx日xx時",
                             "気温(℃)",
-                            "均質番号"
-                        ]
-                    )
-                elif dcr == "Weather_2011-2021":
-                    writer.writerow(
-                        [
-                            "20xx年xx月xx日xx時",
-                            "天気",
-                            "均質番号"
                         ]
                     )
 

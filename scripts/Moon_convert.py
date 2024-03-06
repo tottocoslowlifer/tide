@@ -5,7 +5,7 @@ import pandas as pd
 
 
 def csv_integrater(filename, writer):
-    with open(filename, encoding="shift-jis") as f:
+    with open(filename) as f:
         file = f.readlines()[1:]
         for row in file:
             row = row.rstrip()
@@ -16,13 +16,18 @@ def csv_integrater(filename, writer):
 def get_raw_files(dir_path) -> list:
     filenames = []
     cnt = 2011
+
     for i in range(11):
-        filenames.append(dir_path + "/raw/mooncal" + str(cnt+i) + ".csv")
+        name = dir_path + "/raw/mooncal" + str(cnt+i) + ".csv"
+        #data = pd.read_csv(name, encoding="shift-jis", index_col=0)
+        #data.to_csv(name, index=False)
+        filenames.append(name)
     return filenames
 
 
 def main():
     raw_dir = "../data/Moon_2011-2021"
+
     csv_filename = raw_dir + "/Mooncal_2011-2021.csv"
 
     if os.path.isdir(raw_dir):
