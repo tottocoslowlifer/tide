@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import pandas as pd
@@ -10,9 +11,23 @@ def get_raw_files(dir_path) -> list:
     for i in range(11):
         name = dir_path + "/raw/mooncal" + str(cnt+i) + ".csv"
         save_name = dir_path + "/raw/UTF-8_mooncal" + str(cnt+i) + ".csv"
+
         data = pd.read_csv(name, encoding="shift-jis")
+        cols = [col for col in data.columns if col != "月日"]
+        sorted_cols = ["年月日"] + cols
+
+        data["年月日"] = [
+            datetime.date(
+                cnt+i,
+                int(data["月日"][j].split("/")[0]),
+                int(data["月日"][j].split("/")[1]),
+            ) for j in range(len(data))
+        ]
+        data = data.drop("月日", axis=1).reindex(columns=sorted_cols)
+
         data.to_csv(save_name, index=False)
         filenames.append(save_name)
+
     return filenames
 
 
