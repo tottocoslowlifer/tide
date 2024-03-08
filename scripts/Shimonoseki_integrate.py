@@ -1,22 +1,12 @@
-import csv
 import os
 
-
-def csv_integrater(filename, writer):
-    with open(filename, encoding="shift-jis") as f:
-        file = f.readlines()[5:]
-        for row in file:
-            row = row.rstrip()
-            read = row.split(",")
-            if read[1] == "--":
-                read[1] = None
-            read.remove(read[-1])
-            writer.writerow(read)
+import pandas as pd
 
 
 def get_raw_dir(dir_path) -> list:
     dirnames = sorted(os.listdir(dir_path))
-    dirnames.remove(".DS_Store")
+    if ".DS_Store" in dirnames:
+        dirnames.remove(".DS_Store")
     return dirnames
 
 
@@ -25,32 +15,26 @@ def main():
 
     if os.path.isdir(raw_dir):
         raw_directories = get_raw_dir(raw_dir)
+        dcr_dict = {"Rain_2011-2021": "降水量(mm)", "Temp_2011-2021": "気温(℃)"}
+        df_list = []
+
         for dcr in raw_directories:
             search_dir = raw_dir + "/" + dcr + "/raw"
             raw_filenames = get_raw_dir(search_dir)
-
             filename = raw_dir + "/" + dcr + "/" + dcr + ".csv"
-            with open(filename, mode="w", newline="") as fw:
-                writer = csv.writer(fw)
 
-                if dcr == "Rain_2011-2021":
-                    writer.writerow(
-                        [
-                            "20xx年xx月xx日xx時",
-                            "降水量(mm)",
-                        ]
-                    )
-                elif dcr == "Temp_2011-2021":
-                    writer.writerow(
-                        [
-                            "20xx年xx月xx日xx時",
-                            "気温(℃)",
-                        ]
-                    )
+            data = []
+            for item in raw_filenames:
+                data.append(pd.read_csv(
+                    search_dir+"/"+item, encoding="shift_jis", header=3,
+                    index_col=0, names=[dcr_dict[dcr], "均質番号"]
+                ))
+            all_df = pd.concat(data).drop("均質番号", axis=1)
+            df_list.append(all_df)
+            all_df.to_csv(filename)
 
-                for file in raw_filenames:
-                    raw_filename = search_dir + "/" + file
-                    csv_integrater(raw_filename, writer)
+        concat_df = pd.concat(df_list, axis=1)
+        concat_df.to_csv(raw_dir + "/Shimonoseki.csv")
 
     else:
         print("Exceptional Error:")
