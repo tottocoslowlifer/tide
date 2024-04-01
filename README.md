@@ -31,3 +31,7 @@
   ~~~
   python3 Shimonoseki_integrate.py
   ~~~
+8. 次のコマンドを入力し, 実行完了まで待つ.
+  ~~~
+  python3 preprocessed_csv_convert.py
+  ~~~
