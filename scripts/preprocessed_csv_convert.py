@@ -219,7 +219,6 @@ def main():
     else:
         print("Exceptional Error:")
         print(f"{new_dir} is not found")
-        os.mkdir(new_dir)
 
 
 if __name__ == '__main__':
