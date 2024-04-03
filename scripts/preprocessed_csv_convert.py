@@ -2,7 +2,10 @@ import datetime as dt
 import os
 import re
 
+import numpy as np
 import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 
 
 def call_moji_tide() -> pd.DataFrame:
@@ -120,7 +123,6 @@ def call_shimonoseki() -> pd.DataFrame:
             dt_ymd = dt.date(dt_ymd.year, dt_ymd.month, dt_ymd.day)
             dt_time = dt.time(dt_time.hour)
             times.append(dt.datetime.combine(dt_ymd, dt_time))
-        
         rain = []
         temp = []
         item_dict = {"降水量(mm)": rain, "気温(℃)": temp}
@@ -198,6 +200,32 @@ def flatten(df: pd.DataFrame, how: str = "same") -> pd.DataFrame:
     )
 
 
+def train_predict(X, y, split_rate):
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=split_rate, random_state=316)
+    regressor = LinearRegression().fit(X_train, y_train)
+    y_pred = regressor.predict(X_test)
+    for i in range(len(y_pred)):
+        y_pred[i] = round(y_pred[i])
+
+    return regressor
+
+
+def tide_shift(df: pd.DataFrame, num: int, drop: bool):
+    pre_df = df.copy()
+    X = []
+    for i in range(num):
+        X.append(f"tide level shift {i+1}h")
+        pre_df[f"tide level shift {i+1}h"] = pre_df["tide level"].shift(i+1)
+
+    if drop:
+        pre_df = pre_df.dropna(subset=["rainfall(mm)", "temperature(℃)"])
+        pre_df = pre_df.dropna(subset=["tide level"])
+        pre_df = pre_df.dropna(subset=X)
+
+    return pre_df, X
+
+
 def main():
     new_dir = "../data/Full_2011-2021"
 
@@ -215,7 +243,26 @@ def main():
                 flattened_df = flatten(merged_df, how="diff")
             preprocessed_df = pd.merge(flattened_df, shimonoseki_df, on="date",
                                        how="inner").drop("date", axis=1)
+            preprocessed_df_shift, new_cols = tide_shift(
+                preprocessed_df, 10, True)
+            cols = ["longitude", "moon phase", "calendar", "JMA", "MIRC",
+                    "rainfall(mm)", "temperature(℃)"] + new_cols
+            X = preprocessed_df_shift[cols]
+            y = preprocessed_df_shift["tide level"]
+            regressor = train_predict(X, y, 0.50)
+            nan_tide_df = preprocessed_df[
+                preprocessed_df["tide level"].isnull()]
+            nan_tide_index = nan_tide_df.index
+
+            for index in nan_tide_index:
+                mra_df, _ = tide_shift(
+                    preprocessed_df[index-10:1+index], 10, False)
+                X_test = mra_df[cols].reset_index().drop("index",
+                                                         axis=1).iloc[-1:]
+                y_pred = round(regressor.predict(X_test)[0])
+                preprocessed_df.loc[index, "tide level"] = y_pred
             preprocessed_df.to_csv(filenames[i])
+
     else:
         print("Exceptional Error:")
         print(f"{new_dir} is not found")
