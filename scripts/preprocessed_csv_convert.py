@@ -2,7 +2,6 @@ import datetime as dt
 import os
 import re
 
-import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -50,7 +49,6 @@ def call_moji_tide() -> pd.DataFrame:
         index = list(date_dropped_df.dropna(how="all").index)
 
         return df.iloc[index].reset_index().drop("index", axis=1)
-    
     else:
         print("Exceptional Error:")
         print(f"{df_dir} is not found")
@@ -95,7 +93,6 @@ def call_mooncal() -> pd.DataFrame:
 
         return pd.DataFrame({"年月日": days, "黄経差": longitude, "月齢": moonphase,
                              "こよみ": calendar, "気象庁": jma, "MIRC": mirc})
-    
     else:
         print("Exceptional Error:")
         print(f"{df_dir} is not found")
@@ -136,12 +133,11 @@ def call_shimonoseki() -> pd.DataFrame:
                     df.loc[i, item] = "".join(
                         re.findall(r"\d+\.\d+", str(df.loc[i, item])))
                     if df.loc[i, item] == "":
-                        df.loc[i, item] =- float("nan")
+                        df.loc[i, item] -= float("nan")
                     item_dict[item].append(float(df.loc[i, item]))
 
         return pd.DataFrame({"date": times, "rainfall(mm)": rain,
                              "temperature(℃)": temp})
-    
     else:
         print("Exceptional Error:")
         print(f"{df_dir} is not found")
@@ -201,15 +197,12 @@ def flatten(df: pd.DataFrame, how: str = "same") -> pd.DataFrame:
 
 
 def train_predict(X, y, split_rate):
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=split_rate, random_state=316)
+    X_train, _, y_train, _ = train_test_split(
+        X, y, test_size=split_rate, random_state=316
+    )
     regressor = LinearRegression().fit(X_train, y_train)
-    y_pred = regressor.predict(X_test)
-    for i in range(len(y_pred)):
-        y_pred[i] = round(y_pred[i])
 
     return regressor
-
 
 def tide_shift(df: pd.DataFrame, num: int, drop: bool):
     pre_df = df.copy()
