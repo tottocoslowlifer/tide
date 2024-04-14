@@ -2,8 +2,8 @@ import logging
 import platform
 import subprocess
 
-import set_random_seed
-import start_logging
+from experiment_tools.set_random_seed import fix_seed
+from experiment_tools.start_logging import get_logger
 
 
 def get_git_info(logger) -> logging.Logger:
@@ -40,11 +40,9 @@ def get_os_info(logger: logging.Logger) -> logging.Logger:
 
 
 def start_experiment(cfg: dict) -> logging.Logger:
-    logger = start_logging.get_logger(cfg)
+    logger = get_logger(cfg)
 
-    set_random_seed.fix_seed(cfg["seed"])
+    fix_seed(cfg["seed"])
 
     logger = get_git_info(logger)
     logger = get_os_info(logger)
-
-    return logger
