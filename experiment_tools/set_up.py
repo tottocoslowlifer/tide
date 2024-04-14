@@ -2,6 +2,9 @@ import logging
 import platform
 import subprocess
 
+import set_random_seed
+import start_logging
+
 
 def get_git_info(logger) -> logging.Logger:
     git_info = "commit id: "
@@ -33,4 +36,15 @@ def get_os_info(logger: logging.Logger) -> logging.Logger:
         os_info += "\n"
 
     logger.info(f"OS infomation: {os_info}")
+    return logger
+
+
+def start_experiment(cfg: dict) -> logging.Logger:
+    logger = start_logging.get_logger(cfg)
+
+    set_random_seed.fix_seed(cfg["seed"])
+
+    logger = get_git_info(logger)
+    logger = get_os_info(logger)
+
     return logger
