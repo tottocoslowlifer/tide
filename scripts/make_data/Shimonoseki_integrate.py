@@ -11,10 +11,11 @@ def get_raw_dir(dir_path) -> list:
 
 
 def main():
-    raw_dir = "../data/Shimonoseki_2011-2021"
+    raw_dir = "../../data/Shimonoseki_2011-2021"
 
     if os.path.isdir(raw_dir):
         raw_directories = get_raw_dir(raw_dir)
+        raw_directories.remove("README.md")
         dcr_dict = {"Rain_2011-2021": "降水量(mm)", "Temp_2011-2021": "気温(℃)"}
         df_list = []
 

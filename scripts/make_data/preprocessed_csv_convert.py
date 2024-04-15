@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 
 def call_moji_tide() -> pd.DataFrame:
-    df_dir = "../data/Moji_Tide_2011-2021/csv"
+    df_dir = "../../data/Moji_Tide_2011-2021/csv"
     if os.path.isdir(df_dir):
         df = pd.read_csv(df_dir +
                          "/9010_2011-2021.csv").drop("9010(門司の観測値コード)", axis=1)
@@ -67,7 +67,7 @@ def get_label(df: pd.DataFrame, col: str) -> pd.DataFrame:
 
 
 def call_mooncal() -> pd.DataFrame:
-    df_dir = "../data/Moon_2011-2021"
+    df_dir = "../../data/Moon_2011-2021"
     if os.path.isdir(df_dir):
         df = pd.read_csv(df_dir + "/Mooncal_2011-2021.csv")
         for item in ["こよみ", "気象庁", "MIRC"]:
@@ -100,7 +100,7 @@ def call_mooncal() -> pd.DataFrame:
 
 
 def call_shimonoseki() -> pd.DataFrame:
-    df_dir = "../data/Shimonoseki_2011-2021"
+    df_dir = "../../data/Shimonoseki_2011-2021"
     if os.path.isdir(df_dir):
         df = pd.read_csv(df_dir + "/Shimonoseki.csv").rename(
             columns={"Unnamed: 0": "年月日時"})
@@ -204,6 +204,7 @@ def train_predict(X, y, split_rate):
 
     return regressor
 
+
 def tide_shift(df: pd.DataFrame, num: int, drop: bool):
     pre_df = df.copy()
     X = []
@@ -220,7 +221,7 @@ def tide_shift(df: pd.DataFrame, num: int, drop: bool):
 
 
 def main():
-    new_dir = "../data/Full_2011-2021"
+    new_dir = "../../data/Full_2011-2021"
 
     if os.path.isdir(new_dir):
         filenames = [new_dir + "/preprocessed_same.csv",

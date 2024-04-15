@@ -32,7 +32,7 @@ def get_raw_files(dir_path) -> list:
 
 
 def main():
-    raw_dir = "../data/Moon_2011-2021"
+    raw_dir = "../../data/Moon_2011-2021"
     csv_filename = raw_dir + "/Mooncal_2011-2021.csv"
 
     if os.path.isdir(raw_dir):
