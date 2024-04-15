@@ -1,3 +1,15 @@
 .DS_Store
 
+data/Full_2011-2021
+
+data/Moji_Tide_2011-2021/csv
+
+data/Moon2011-2021.csv
+
+data/Shimonoseki_2011-2021/Shimonoseki.csv
+
+data/Shimonoseki_2011-2021/Rain_2011-2021/Rain_2011-2021.csv
+
+data/Shimonoseki_2011-2021/Temp_2011-2021/Temp_2011-2021.csv
+
 notebooks/.ipynb_checkpoints/
