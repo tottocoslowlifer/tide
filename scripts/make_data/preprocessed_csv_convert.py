@@ -131,7 +131,8 @@ def call_shimonoseki() -> pd.DataFrame:
                     item_dict[item].append(float("nan"))
                 else:
                     df.loc[i, item] = "".join(
-                        re.findall(r"\d+\.\d+", str(df.loc[i, item])))
+                        re.findall(r"\d+\.\d+", str(df.loc[i, item]))
+                    )
                     if df.loc[i, item] == "":
                         df.loc[i, item] = float("nan")
                     item_dict[item].append(float(df.loc[i, item]))
