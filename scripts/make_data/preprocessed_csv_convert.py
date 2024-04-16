@@ -133,7 +133,7 @@ def call_shimonoseki() -> pd.DataFrame:
                     df.loc[i, item] = "".join(
                         re.findall(r"\d+\.\d+", str(df.loc[i, item])))
                     if df.loc[i, item] == "":
-                        df.loc[i, item] -= float("nan")
+                        df.loc[i, item] = float("nan")
                     item_dict[item].append(float(df.loc[i, item]))
 
         return pd.DataFrame({"date": times, "rainfall(mm)": rain,
@@ -224,42 +224,42 @@ def main():
     new_dir = "../../data/Full_2011-2021"
 
     if os.path.isdir(new_dir):
-        filenames = [new_dir + "/preprocessed_same.csv",
-                     new_dir + "/preprocessed_diff.csv"]
-        df = call_moji_tide()
-        moon_df = call_mooncal()
-        shimonoseki_df = call_shimonoseki()
-        merged_df = pd.merge(df, moon_df, on="年月日", how="inner")
-        for i in range(len(filenames)):
-            if i == 0:
-                flattened_df = flatten(merged_df, how="same")
-            else:
-                flattened_df = flatten(merged_df, how="diff")
-            preprocessed_df = pd.merge(flattened_df, shimonoseki_df, on="date",
-                                       how="inner").drop("date", axis=1)
-            preprocessed_df_shift, new_cols = tide_shift(
-                preprocessed_df, 10, True)
-            cols = ["longitude", "moon phase", "calendar", "JMA", "MIRC",
-                    "rainfall(mm)", "temperature(℃)"] + new_cols
-            X = preprocessed_df_shift[cols]
-            y = preprocessed_df_shift["tide level"]
-            regressor = train_predict(X, y, 0.50)
-            nan_tide_df = preprocessed_df[
-                preprocessed_df["tide level"].isnull()]
-            nan_tide_index = nan_tide_df.index
-
-            for index in nan_tide_index:
-                mra_df, _ = tide_shift(
-                    preprocessed_df[index-10:1+index], 10, False)
-                X_test = mra_df[cols].reset_index().drop("index",
-                                                         axis=1).iloc[-1:]
-                y_pred = round(regressor.predict(X_test)[0])
-                preprocessed_df.loc[index, "tide level"] = y_pred
-            preprocessed_df.to_csv(filenames[i])
-
+        pass
     else:
-        print("Exceptional Error:")
-        print(f"{new_dir} is not found")
+        os.mkdir(new_dir)
+
+    filenames = [new_dir + "/preprocessed_same.csv",
+                 new_dir + "/preprocessed_diff.csv"]
+    df = call_moji_tide()
+    moon_df = call_mooncal()
+    shimonoseki_df = call_shimonoseki()
+    merged_df = pd.merge(df, moon_df, on="年月日", how="inner")
+    for i in range(len(filenames)):
+        if i == 0:
+            flattened_df = flatten(merged_df, how="same")
+        else:
+            flattened_df = flatten(merged_df, how="diff")
+        preprocessed_df = pd.merge(flattened_df, shimonoseki_df, on="date",
+                                   how="inner").drop("date", axis=1)
+        preprocessed_df_shift, new_cols = tide_shift(
+            preprocessed_df, 10, True)
+        cols = ["longitude", "moon phase", "calendar", "JMA", "MIRC",
+                "rainfall(mm)", "temperature(℃)"] + new_cols
+        X = preprocessed_df_shift[cols]
+        y = preprocessed_df_shift["tide level"]
+        regressor = train_predict(X, y, 0.50)
+        nan_tide_df = preprocessed_df[
+            preprocessed_df["tide level"].isnull()]
+        nan_tide_index = nan_tide_df.index
+
+        for index in nan_tide_index:
+            mra_df, _ = tide_shift(
+                preprocessed_df[index-10:1+index], 10, False)
+            X_test = mra_df[cols].reset_index().drop(
+                "index", axis=1).iloc[-1:]
+            y_pred = round(regressor.predict(X_test)[0])
+            preprocessed_df.loc[index, "tide level"] = y_pred
+        preprocessed_df.to_csv(filenames[i])
 
 
 if __name__ == '__main__':
