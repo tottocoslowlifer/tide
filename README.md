@@ -15,7 +15,15 @@
 実行プログラムであるPythonファイルを置くフォルダ.
 
 ## 実行方法
-1. `scripts/make_data`ディレクトリ上で,次のコマンドを順に入力する.
+1. 以下のコマンドを入力する.
+~~~
+echo 'export PYTHONPATH=../..' >> ~/.bashrc
+~~~
+~~~
+source ~/.bashrc
+~~~
+
+2. `scripts/make_data`ディレクトリ上で,次のコマンドを順に入力する.
   ~~~
   python3 csv_convert.py
   ~~~
@@ -28,3 +36,8 @@
   ~~~
   python3 preprocessed_csv_convert.py
   ~~~
+
+3. `scripts/try`ディレクトリ上で,次のコマンドを入力する.
+~~~
+python3 test.py
+~~~
