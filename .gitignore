@@ -1,7 +1,6 @@
 .DS_Store
-
-data
+__pycache__
 
 notebooks/.ipynb_checkpoints/
-
-tide/config/experiment/
+data/
+config/experiment/
