@@ -1,0 +1,10 @@
+2024-04-17 16:23:55,752 - experiment_tools.start_logging - INFO - commit id: b2ca2284930078d760eac8b45771adb5ddc7d994
+2024-04-17 16:23:55,752 - experiment_tools.start_logging - INFO - username: tottocoslowlifer
+2024-04-17 16:23:55,755 - experiment_tools.start_logging - INFO - OS infomation: 
+
+	OS: Darwin 23.2.0
+	Processor: arm
+	Machine: arm64
+	Node: MacBook-Air-44.local
+	Python Version: 3.11.5
+

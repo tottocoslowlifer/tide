@@ -1,0 +1,7 @@
+{
+    "log": {
+        "log_file": "../../outputs/test.log",
+        "log_formatter": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    },
+    "seed": 41
+}
