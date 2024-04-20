@@ -22,6 +22,12 @@ echo 'export PYTHONPATH=../..' >> ~/.bashrc
 ~~~
 source ~/.bashrc
 ~~~
+~~~
+pip3 install --upgrade pip
+~~~
+~~~
+pip3 install -r requirements.txt
+~~~
 
 2. `scripts/make_data`ディレクトリ上で,次のコマンドを順に入力する.
   ~~~
