@@ -3,5 +3,4 @@ __pycache__
 
 notebooks/.ipynb_checkpoints/
 data/
-config/experiment/
 outputs/
