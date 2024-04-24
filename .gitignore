@@ -5,3 +5,7 @@ notebooks/.ipynb_checkpoints/
 data/
 config/experiment/
 outputs/
+
+!../config/experiment/.gitkeep
+!../outputs/.gitkeep
+!../scripts/trainer/.gitkeep
