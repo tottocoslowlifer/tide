@@ -3,5 +3,6 @@
         "log_file": "../../outputs/test.log",
         "log_formatter": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     },
-    "seed": 41
+    "seed": 41,
+    "data_path": "../../data/Full_2011-2021/preprocessed_same.csv"
 }
