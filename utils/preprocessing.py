@@ -9,13 +9,13 @@ def get_dataframe(cfg: dict) -> pd.DataFrame:
     for i in range(len(df)):
         tide = df.loc[i, "tide level"]
         if tide > 200.00:
-            label_list.append("a")  # 門司港レトロクルーズ
+            label_list.append(1)  # 門司港レトロクルーズ
         elif tide > 150.00:
-            label_list.append("b")  # 関門海峡クルージング
+            label_list.append(2)  # 関門海峡クルージング
         elif tide > 100.00:
-            label_list.append("c")  # 巌流島上陸
+            label_list.append(3)  # 巌流島上陸
         else:
-            label_list.append("d")   # 運行中止
+            label_list.append(4)   # 運行中止
 
     label_df = pd.DataFrame(label_list, columns=["label"])
     df = pd.concat([label_df, df], axis=1)
