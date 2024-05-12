@@ -17,8 +17,7 @@ def get_dataframe(cfg: dict) -> pd.DataFrame:
         else:
             label_list.append(4)   # 運行中止
 
-    label_df = pd.DataFrame(label_list, columns=["label"])
-    df = pd.concat([label_df, df], axis=1)
+    df["label"] = label_list
 
     return df
 
