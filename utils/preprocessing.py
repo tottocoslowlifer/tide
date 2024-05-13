@@ -23,10 +23,7 @@ def get_dataframe(cfg: dict) -> pd.DataFrame:
     return df
 
 
-def make_datasets(df, cfg: dict) -> pd.DataFrame:
-    path = cfg["data_path"]
-    df = pd.read_csv(path, index_col=0)
-
+def make_datasets(df: pd.DataFrame, cfg: dict) -> dict:
     pre_df = df.copy().drop(
         [
             "longitude", "calendar", "JMA", "MIRC",
@@ -45,9 +42,12 @@ def make_datasets(df, cfg: dict) -> pd.DataFrame:
     pre_df["tide level shift 1y"] = pre_df["tide level"].shift(8570)
     X_cols.append("moon phase")
 
+    pre_df = pre_df.dropna().reset_index().drop("index", axis=1)
     X = pre_df[X_cols]
     y = pre_df[y_cols]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=cfg["split_rate"], random_state=316)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=cfg["split_rate"], random_state=cfg["seed"]
+    )
 
     out = {
         "datasets": pre_df,
