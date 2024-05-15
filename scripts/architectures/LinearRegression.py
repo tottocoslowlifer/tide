@@ -10,10 +10,10 @@ def LRModel(cfg: dict, load_model=False, filename=None, X=None, y=None):
 
     else:
         model = LinearRegression(
-            fit_intercept=cfg["params"]["fit_intercept"],
-            copy_X=cfg["params"]["copy_X"],
+            fit_intercept=bool(cfg["params"]["fit_intercept"]),
+            copy_X=bool(cfg["params"]["copy_X"]),
             n_jobs=cfg["params"]["n_jobs"],
-            positive=cfg["params"]["positive"],
+            positive=bool(cfg["params"]["positive"]),
         )
         model.fit(X, y)
         return model

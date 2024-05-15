@@ -14,9 +14,9 @@ def SVRModel(cfg: dict, load_model=False, filename=None, X=None, y=None):
             gamma=cfg["params"]["gamma"], coef0=cfg["params"]["coef0"],
             tol=cfg["params"]["tol"], C=cfg["params"]["C"],
             epsilon=cfg["params"]["epsilon"],
-            shrinking=cfg["params"]["shrinking"],
+            shrinking=bool(cfg["params"]["shrinking"]),
             cache_size=cfg["params"]["cache_size"],
-            verbose=cfg["params"]["verbose"],
+            verbose=bool(cfg["params"]["verbose"]),
             max_iter=cfg["params"]["max_iter"],
         )
         model.fit(X, y)

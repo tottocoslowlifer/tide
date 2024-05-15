@@ -1,0 +1,22 @@
+{
+    "log": {
+        "log_file": "../../outputs/test.log",
+        "log_formatter": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    },
+    "params": {
+        "kernel": "rbf",
+        "degree": 3,
+        "gamma": "scale",
+        "coef0": 0.0,
+        "tol": 1e-3,
+        "C": 1.0,
+        "epsilon": 0.1,
+        "shrinking": 1,
+        "cache_size": 200,
+        "verbose": 0,
+        "max_iter": -1
+    },
+    "seed": 41,
+    "split_rate": 0.3,
+    "data_path": "../../data/Full_2011-2021/preprocessed_same.csv"
+}
