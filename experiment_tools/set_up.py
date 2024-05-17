@@ -6,7 +6,7 @@ from experiment_tools.set_random_seed import fix_seed
 from experiment_tools.start_logging import get_logger
 
 
-def get_git_info(logger) -> logging.Logger:
+def get_git_info(logger: logging.Logger) -> logging.Logger:
     git_info = "commit id: "
     git_info += subprocess.check_output(
         ["git", "rev-parse", "HEAD"]
