@@ -1,6 +1,7 @@
 {
+    "model_type": "SVR",
     "log": {
-        "log_file": "../../outputs/SVR.log",
+        "log_file": "SVR.log",
         "log_formatter": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     },
     "params": {

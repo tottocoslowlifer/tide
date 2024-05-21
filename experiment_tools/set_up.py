@@ -1,4 +1,6 @@
+import datetime as dt
 import logging
+import os
 import platform
 import subprocess
 
@@ -39,10 +41,36 @@ def get_os_info(logger: logging.Logger) -> logging.Logger:
     return logger
 
 
+def get_directory(cfg: dict, date_time: dt) -> dict:
+    output_dir = "../../outputs"
+    model_output_dir = output_dir + "/" + cfg["model_type"]
+
+    if cfg["model_type"] not in os.listdir(output_dir):
+        os.mkdir(model_output_dir)
+
+    date = str(date_time.date())
+    date_dir = model_output_dir + "/" + date
+    if date not in os.listdir(model_output_dir):
+        os.mkdir(date_dir)
+
+    time = str(date_time.time()).split(".")[0].replace(":", "-")
+    time_dir = date_dir + "/" + time
+    os.mkdir(time_dir)
+
+    cfg["log"]["log_file"] = time_dir + "/" + cfg["log"]["log_file"]
+
+    return cfg
+
+
 def start_experiment(cfg: dict) -> logging.Logger:
+    date_time = dt.datetime.now()
+    cfg = get_directory(cfg, date_time)
+
     logger = get_logger(cfg)
 
     fix_seed(cfg["seed"])
 
     logger = get_git_info(logger)
     logger = get_os_info(logger)
+
+    return logger

@@ -1,6 +1,7 @@
 {
+    "model_type": "LinearRegression",
     "log": {
-        "log_file": "../../outputs/LinearRegression.log",
+        "log_file": "LinearRegression.log",
         "log_formatter": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     },
     "params": {
